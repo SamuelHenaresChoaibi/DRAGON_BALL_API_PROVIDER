@@ -23,21 +23,21 @@ import 'actions.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return combineReducers<AppState>([
-    TypedReducer<AppState, FetchCharacters>(_fetchCharacters).call,
-    TypedReducer<AppState, FetchPlanets>(_fetchPlanets).call,
+    TypedReducer<AppState, CargarPersonajes>(_cargarPersonajes).call,
+    TypedReducer<AppState, CargarPlanetas>(_cargarPlanetas).call,
     TypedReducer<AppState, SelectItem>(_selectItem).call,
-    TypedReducer<AppState, CharactersLoading>(_charactersLoading).call,
-    TypedReducer<AppState, PlanetsLoading>(_planetsLoading).call,
+    TypedReducer<AppState, PersonajesLoading>(_personajesLoading).call,
+    TypedReducer<AppState, PlanetasLoading>(_planetasLoading).call,
   ])(state, action);
 }
 
-AppState _fetchCharacters(AppState state, FetchCharacters action) {
+AppState _cargarPersonajes(AppState state, CargarPersonajes action) {
   // Aquí normalmente llamarías al API y retornarías datos
   // Por ahora simulamos con datos vacíos
   return state.copyWith(personajes: []);
 }
 
-AppState _fetchPlanets(AppState state, FetchPlanets action) {
+AppState _cargarPlanetas(AppState state, CargarPlanetas action) {
   // Simulamos carga de planetas
   return state.copyWith(planetas: []);
 }
@@ -46,10 +46,10 @@ AppState _selectItem(AppState state, SelectItem action) {
   return state.copyWith(selectedId: '${action.type}_${action.id}');
 }
 
-AppState _charactersLoading(AppState state, CharactersLoading action) {
+AppState _personajesLoading(AppState state, PersonajesLoading action) {
   return state.copyWith(personajes: []); // Podrías agregar loading state
 }
 
-AppState _planetsLoading(AppState state, PlanetsLoading action) {
+AppState _planetasLoading(AppState state, PlanetasLoading action) {
   return state.copyWith(planetas: []);
 }

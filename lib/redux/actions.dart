@@ -18,12 +18,12 @@ Uso en la app:
 */
 
 // Acciones para cargar datos del API
-class FetchCharacters {
-  const FetchCharacters();
+class CargarPersonajes {
+  const CargarPersonajes();
 }
 
-class FetchPlanets {
-  const FetchPlanets();
+class CargarPlanetas {
+  const CargarPlanetas();
 }
 
 // Acción para seleccionar un elemento (personaje o planeta)
@@ -38,6 +38,6 @@ class SelectItem {
 }
 
 // Acciones de estado de carga (opcionales)
-class CharactersLoading {}
-class PlanetsLoading {}
+class PersonajesLoading {}
+class PlanetasLoading {}
 class DataLoaded {}
