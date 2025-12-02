@@ -1,3 +1,16 @@
+/*
+Este AppState es inmutable y contiene:
+- characters: Lista de personajes cargados
+- planets: Lista de planetas cargados
+- selectedId: El id del personaje o planeta que se ha seleccionado para ver detalles (o null si no hay selección)
+
+El método copyWith permite crear nuevas copias del estado con cambios puntuales, lo que es fundamental para que Redux 
+maneje el estado sin mutaciones directas.
+
+Este es el “cuaderno central” donde Redux guardará y actualizará toda la información de la app. 
+Desde aquí, los reducers cambiarán el estado y las pantallas leerán para mostrar la información correcta.
+*/
+
 import 'package:flutter/foundation.dart';
 import '../models/personaje.dart';
 import '../models/planeta.dart';
