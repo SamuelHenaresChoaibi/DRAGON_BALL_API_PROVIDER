@@ -12,13 +12,13 @@ Desde aquí, los reducers cambiarán el estado y las pantallas leerán para most
 */
 
 import 'package:flutter/foundation.dart';
-import '../models/personaje.dart';
-import '../models/planeta.dart';
+import 'package:dragon_ball_provider/models/modelos.dart';
+
 
 @immutable
 class AppState {
-  final List<Personaje> personajes;
-  final List<Planeta> planetas;
+  final List<Character> personajes;
+  final List<Planet> planetas;
   final String? selectedId; // id del personaje o planeta seleccionado, o null
 
   const AppState({
@@ -28,8 +28,8 @@ class AppState {
   });
 
   AppState copyWith({
-    List<Personaje>? personajes,
-    List<Planeta>? planetas,
+    List<Character>? personajes,
+    List<Planet>? planetas,
     String? selectedId,
   }) {
     return AppState(
