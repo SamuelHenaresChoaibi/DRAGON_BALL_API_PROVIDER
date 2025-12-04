@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:elden_ring_app/providers/elden_ring_providers.dart';
-import 'package:elden_ring_app/widgets/category_slider.dart';
+import 'package:dragon_ball_api_provider/providers/DBprovider.dart';
+import 'package:dragon_ball_api_provider/widgets/category_slider.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/category_slider.dart';
 
 //Pantalla principal de la app (Home)
 class HomeScreen extends StatelessWidget {
@@ -9,8 +11,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Accede al provider que contiene todos los datos de Elden Ring
-    final eldenProvider = Provider.of<EldenRingProvider>(context);
+    //Accede al provider que contiene todos los datos de la API de Dragon Ball
+    final DBProvider = Provider.of<DBProvider>(context);
 
     //Si aún se están cargando los datos --> muestra pantalla de carga
     if (eldenProvider.isLoading == true) {
@@ -26,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 30),
               Text(
-                "Despertando el Círculo de Elden...",
+                "DRAGON BALL loading...",
                 style: TextStyle(
                   color: Colors.amber,
                   fontSize: 20,
@@ -46,7 +48,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
-          "Elden Ring Wiki",
+          "DRAGON BALL",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -61,7 +63,7 @@ class HomeScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Text(
-                "¡Bienvenido, Sinluz!",
+                "¡Bienvenido/a!",
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -70,73 +72,34 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
+
             SizedBox(height: 10),
 
             //Slider horizontal de armas
             CategorySlider(
-              title: "Armas Legendarias",
-              items: eldenProvider.weapons,
-              type: 'weapon',
-              onTap: (weapon) {
+              title: "Personajes",
+              items: DBProvider.personajes,
+              type: 'personaje',
+              onTap: (muestra_detalles_personaje) {
                 Navigator.pushNamed(
                   context,
-                  'details',
-                  arguments: {'item': weapon, 'type': 'weapon'},
+                  'detalless',
+                  arguments: {'item': personaje, 'type': 'personaje'},
                 );
               },
             ),
 
             //Slider horizontal de armaduras
             CategorySlider(
-              title: "Armaduras Épicas",
-              items: eldenProvider.armors,
-              type: 'armor',
-              onTap: (armor) {
+              title: "Planetas",
+              items: DBProvider.planetas,
+              type: 'planeta',
+              onTap: (muestra_detalles_planeta) {
                 Navigator.pushNamed(
                   context,
-                  'details',
-                  arguments: {'item': armor, 'type': 'armor'},
+                  'detalles',
+                  arguments: {'item': planeta, 'type': 'planeta'},
                 );
-              },
-            ),
-
-            //Slider horizontal de hechizos
-            CategorySlider(
-              title: "Hechizos del Poder",
-              items: eldenProvider.sorceries,
-              type: 'sorcery',
-              onTap: (spell) {
-                Navigator.pushNamed(
-                  context,
-                  'details',
-                  arguments: {'item': spell, 'type': 'sorcery'},
-                );
-              },
-            ),
-
-            //Slider horizontal de espíritus
-            CategorySlider(
-              title: "Cenizas de Espíritus",
-              items: eldenProvider.spirits,
-              type: 'spirit',
-              onTap: (spirit) {
-                Navigator.pushNamed(context, 'details', arguments: {
-                  'item': spirit,
-                  'type': 'spirit'
-                });
-              },
-            ),
-
-            //Slider horizontal de talismanes
-            CategorySlider(
-              title: "Talismanes Sagrados",
-              items: eldenProvider.talismans,
-              type: 'talisman',
-              onTap: (talisman) {
-                Navigator.pushNamed(context, 'details', arguments: {
-                  'item': talisman,
-                  'type': 'talisman'
-                });
               },
             ),
 
