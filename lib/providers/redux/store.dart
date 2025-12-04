@@ -7,11 +7,12 @@ Este store.dart se importa en main.dart para envolver la app con StoreProvider(s
 */
 
 import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 import 'app_state.dart';
 import 'reducers.dart';
 
-final Store<AppState> store = Store<AppState>(
+final store = Store<AppState>(
   appReducer,
   initialState: const AppState(),
-  middleware: [], // Puedes agregar middleware aquí (ejemplo: logging o async)
+  middleware: [thunkMiddleware],
 );

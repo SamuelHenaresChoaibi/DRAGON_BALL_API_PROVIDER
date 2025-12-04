@@ -1,1 +1,1 @@
-export 'package:elden_ring_app/widgets/category_slider.dart';
+export 'package:dragon_ball_provider/widgets/category_slider.dart';

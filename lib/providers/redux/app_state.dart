@@ -10,7 +10,7 @@ maneje el estado sin mutaciones directas.
 Este es el “cuaderno central” donde Redux guardará y actualizará toda la información de la app. 
 Desde aquí, los reducers cambiarán el estado y las pantallas leerán para mostrar la información correcta.
 */
-
+// app_state.dart
 import 'package:flutter/foundation.dart';
 import 'package:dragon_ball_provider/models/modelos.dart';
 
@@ -19,23 +19,31 @@ import 'package:dragon_ball_provider/models/modelos.dart';
 class AppState {
   final List<Character> personajes;
   final List<Planet> planetas;
-  final String? selectedId; // id del personaje o planeta seleccionado, o null
+  final bool isLoading;
+  final int? selectedId;
+  final String? selectedType;
 
   const AppState({
     this.personajes = const [],
     this.planetas = const [],
+    this.isLoading = false,
     this.selectedId,
+    this.selectedType,
   });
 
   AppState copyWith({
     List<Character>? personajes,
     List<Planet>? planetas,
-    String? selectedId,
+    bool? isLoading,
+    int? selectedId,
+    String? selectedType,
   }) {
     return AppState(
       personajes: personajes ?? this.personajes,
       planetas: planetas ?? this.planetas,
+      isLoading: isLoading ?? this.isLoading,
       selectedId: selectedId ?? this.selectedId,
+      selectedType: selectedType ?? this.selectedType,
     );
   }
 }

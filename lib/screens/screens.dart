@@ -1,2 +1,1 @@
-export 'package:elden_ring_app/screens/details_screen.dart';
-export 'package:elden_ring_app/screens/home_screen.dart';
+export 'package:dragon_ball_provider/screens/home_screen.dart';

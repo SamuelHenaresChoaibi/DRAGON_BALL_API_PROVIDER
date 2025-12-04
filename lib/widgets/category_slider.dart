@@ -1,12 +1,12 @@
+// category_slider.dart → ¡AHORA SÍ ES HORIZONTAL!
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-//Widget que muestra una sección con título y un slider horizontal de objetos
 class CategorySlider extends StatelessWidget {
-  final String title; //Título de la sección
-  final List<dynamic> items; //Lista de objetos que se van a mostrar
-  final String type; //Tipo de objeto
-  final Function(dynamic) onTap; //Función que se ejecuta al pulsar un elemento
+  final String title;
+  final List<dynamic> items;
+  final String type;
+  final Function(dynamic) onTap;
 
   const CategorySlider({
     required this.title,
@@ -18,91 +18,68 @@ class CategorySlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Si no hay elementos, no muestra nada
-    if (items.isEmpty) {
-      return Container();
-    }
+    if (items.isEmpty) return const SizedBox.shrink();
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //Título de la categoría
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 10),
-          child: SizedBox(
-            width: double.infinity,
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.amber,
-              ),
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.amber),
           ),
         ),
-
-        //Slider horizontal con las tarjetas
         SizedBox(
-          height: 230,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              SizedBox(width: 10),
-
-              //Muestra máximo 20 elementos para no saturar el slider
-              for (var i = 0; i < items.length; i++)
-                if (i < 20)
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: GestureDetector(
-                      //Al pulsar -> ejecuta la función onTap con el objeto
-                      onTap: () => onTap(items[i]),
-                      child: SizedBox(
+          height: 240,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal, // ← HORIZONTAL
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            itemCount: items.length > 20 ? 20 : items.length,
+            itemBuilder: (context, i) {
+              final item = items[i];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: GestureDetector(
+                  onTap: () => onTap(item),
+                  child: Column(
+                    children: [
+                      Container(
                         width: 140,
-                        child: Column(
-                          children: [
-                            //Imagen del objeto
-                            Container(
-                              height: 160,
-                              width: 140,
-                              color: Colors.grey[800],
-                              child: CachedNetworkImage(
-                                imageUrl: items[i].image ?? '',
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => Center(
-                                  child: CircularProgressIndicator(color: Colors.amber),
-                                ),
-                                errorWidget: (context, url, error) => Icon(
-                                  Icons.error,
-                                  color: Colors.red,
-                                  size: 50,
-                                ),
-                              ),
-                            ),
-
-                            SizedBox(height: 8),
-
-                            //Nombre del objeto
-                            Text(
-                              items[i].name ?? 'Sin nombre',
-                              style: TextStyle(color: Colors.white, fontSize: 13),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                        height: 160,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.grey[800],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: CachedNetworkImage(
+                            imageUrl: item.image ?? '',
+                            fit: BoxFit.cover,
+                            placeholder: (_, __) => const Center(child: CircularProgressIndicator(color: Colors.amber)),
+                            errorWidget: (_, __, ___) => const Icon(Icons.error, color: Colors.red),
+                          ),
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: 140,
+                        child: Text(
+                          item.name ?? 'Sin nombre',
+                          style: const TextStyle(color: Colors.white, fontSize: 13),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-
-              SizedBox(width: 10),
-            ],
+                ),
+              );
+            },
           ),
         ),
-
-        //Espacio inferior entre secciones (margen inferior)
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ],
     );
   }

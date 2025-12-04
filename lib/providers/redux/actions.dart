@@ -18,26 +18,79 @@ Uso en la app:
 */
 
 // Acciones para cargar datos del API
-class CargarPersonajes {
-  const CargarPersonajes();
+// actions.dart
+import 'package:dragon_ball_provider/models/modelos.dart';
+import 'package:dragon_ball_provider/providers/provider_redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:redux/redux.dart';           // ← ESTA LÍNEA ES LA QUE FALTABA
+
+import 'app_state.dart';
+// Acciones síncronas
+class PersonajesCargados {
+  final List<Character> personajes;
+  PersonajesCargados(this.personajes);
 }
 
-class CargarPlanetas {
-  const CargarPlanetas();
+class PlanetasCargados {
+  final List<Planet> planetas;
+  PlanetasCargados(this.planetas);
 }
 
-// Acción para seleccionar un elemento (personaje o planeta)
+class SetLoading {
+  final bool isLoading;
+  SetLoading(this.isLoading);
+}
+
 class SelectItem {
-  final String id;
-  final String type; // 'personaje' o 'planeta'
-
-  const SelectItem({
-    required this.id,
-    required this.type,
-  });
+  final int id;
+  final String type; // 'character' o 'planet'
+  SelectItem(this.id, this.type);
 }
 
-// Acciones de estado de carga (opcionales)
-class PersonajesLoading {}
-class PlanetasLoading {}
-class DataLoaded {}
+
+
+ThunkAction<AppState> fetchCharacters() {
+  return (Store<AppState> store) async {
+    store.dispatch(SetLoading(true));
+    try {
+      final response = await http.get(
+        Uri.parse('https://dragonball-api.com/api/characters?limit=20'),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final List<Character> chars = (data['items'] as List)
+            .map((e) => Character.fromJson(e))
+            .toList();
+        store.dispatch(PersonajesCargados(chars));
+      }
+    } catch (e) {
+      print("Error cargando personajes: $e");
+    } finally {
+      store.dispatch(SetLoading(false));
+    }
+  };
+}
+
+ThunkAction<AppState> fetchPlanets() {
+  return (Store<AppState> store) async {
+    store.dispatch(SetLoading(true));
+    try {
+      final response = await http.get(
+        Uri.parse('https://dragonball-api.com/api/planets?limit=20'),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final List<Planet> planets = (data['items'] as List)
+            .map((e) => Planet.fromJson(e))
+            .toList();
+        store.dispatch(PlanetasCargados(planets));
+      }
+    } catch (e) {
+      print("Error cargando planetas: $e");
+    } finally {
+      store.dispatch(SetLoading(false));
+    }
+  };
+}

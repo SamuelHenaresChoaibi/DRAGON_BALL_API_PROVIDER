@@ -16,40 +16,35 @@ Flujo completo:
 IMPORTANTE: Los reducers SIEMPRE retornan un NUEVO estado (usando copyWith), NUNCA mutan el estado actual. 
 Esto mantiene todo predecible y debuggeable.
 */
-
+// reducers.dart
 import 'package:redux/redux.dart';
 import 'app_state.dart';
 import 'actions.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return combineReducers<AppState>([
-    TypedReducer<AppState, CargarPersonajes>(_cargarPersonajes).call,
-    TypedReducer<AppState, CargarPlanetas>(_cargarPlanetas).call,
-    TypedReducer<AppState, SelectItem>(_selectItem).call,
-    TypedReducer<AppState, PersonajesLoading>(_personajesLoading).call,
-    TypedReducer<AppState, PlanetasLoading>(_planetasLoading).call,
+    TypedReducer<AppState, PersonajesCargados>(_personajesCargados),
+    TypedReducer<AppState, PlanetasCargados>(_planetasCargados),
+    TypedReducer<AppState, SetLoading>(_setLoading),
+    TypedReducer<AppState, SelectItem>(_selectItem),
   ])(state, action);
 }
 
-AppState _cargarPersonajes(AppState state, CargarPersonajes action) {
-  // Aquí normalmente llamarías al API y retornarías datos
-  // Por ahora simulamos con datos vacíos
-  return state.copyWith(personajes: []);
+AppState _personajesCargados(AppState state, PersonajesCargados action) {
+  return state.copyWith(personajes: action.personajes);
 }
 
-AppState _cargarPlanetas(AppState state, CargarPlanetas action) {
-  // Simulamos carga de planetas
-  return state.copyWith(planetas: []);
+AppState _planetasCargados(AppState state, PlanetasCargados action) {
+  return state.copyWith(planetas: action.planetas);
+}
+
+AppState _setLoading(AppState state, SetLoading action) {
+  return state.copyWith(isLoading: action.isLoading);
 }
 
 AppState _selectItem(AppState state, SelectItem action) {
-  return state.copyWith(selectedId: '${action.type}_${action.id}');
-}
-
-AppState _personajesLoading(AppState state, PersonajesLoading action) {
-  return state.copyWith(personajes: []); // Podrías agregar loading state
-}
-
-AppState _planetasLoading(AppState state, PlanetasLoading action) {
-  return state.copyWith(planetas: []);
+  return state.copyWith(
+    selectedId: action.id,
+    selectedType: action.type,
+  );
 }
