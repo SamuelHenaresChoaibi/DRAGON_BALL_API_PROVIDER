@@ -17,24 +17,25 @@ IMPORTANTE: Los reducers SIEMPRE retornan un NUEVO estado (usando copyWith), NUN
 Esto mantiene todo predecible y debuggeable.
 */
 // reducers.dart
+// redux/reducers.dart
 import 'package:redux/redux.dart';
 import 'app_state.dart';
 import 'actions.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return combineReducers<AppState>([
-    TypedReducer<AppState, PersonajesCargados>(_personajesCargados),
-    TypedReducer<AppState, PlanetasCargados>(_planetasCargados),
+    TypedReducer<AppState, PersonajesCargados>(_cargarPersonajes),
+    TypedReducer<AppState, PlanetasCargados>(_cargarPlanetas),
     TypedReducer<AppState, SetLoading>(_setLoading),
-    TypedReducer<AppState, SelectItem>(_selectItem),
+    TypedReducer<AppState, ChangeCategoryAction>(_cambiarCategoria), // ← NUEVO
   ])(state, action);
 }
 
-AppState _personajesCargados(AppState state, PersonajesCargados action) {
+AppState _cargarPersonajes(AppState state, PersonajesCargados action) {
   return state.copyWith(personajes: action.personajes);
 }
 
-AppState _planetasCargados(AppState state, PlanetasCargados action) {
+AppState _cargarPlanetas(AppState state, PlanetasCargados action) {
   return state.copyWith(planetas: action.planetas);
 }
 
@@ -42,9 +43,6 @@ AppState _setLoading(AppState state, SetLoading action) {
   return state.copyWith(isLoading: action.isLoading);
 }
 
-AppState _selectItem(AppState state, SelectItem action) {
-  return state.copyWith(
-    selectedId: action.id,
-    selectedType: action.type,
-  );
+AppState _cambiarCategoria(AppState state, ChangeCategoryAction action) {
+  return state.copyWith(currentCategory: action.category);
 }

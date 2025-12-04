@@ -19,15 +19,15 @@ Uso en la app:
 
 // Acciones para cargar datos del API
 // actions.dart
+// redux/actions.dart
 import 'package:dragon_ball_provider/models/modelos.dart';
-import 'package:dragon_ball_provider/providers/provider_redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:redux/redux.dart';           // ← ESTA LÍNEA ES LA QUE FALTABA
-
+import 'package:redux/redux.dart';
 import 'app_state.dart';
-// Acciones síncronas
+
+// ========== ACCIONES SÍNCRONAS ==========
 class PersonajesCargados {
   final List<Character> personajes;
   PersonajesCargados(this.personajes);
@@ -43,20 +43,19 @@ class SetLoading {
   SetLoading(this.isLoading);
 }
 
-class SelectItem {
-  final int id;
-  final String type; // 'character' o 'planet'
-  SelectItem(this.id, this.type);
+// NUEVA ACCIÓN para cambiar entre personajes y planetas
+class ChangeCategoryAction {
+  final String category; // 'personajes' o 'planetas'
+  ChangeCategoryAction(this.category);
 }
 
-
-
+// ========== ACCIONES ASÍNCRONAS ==========
 ThunkAction<AppState> fetchCharacters() {
   return (Store<AppState> store) async {
     store.dispatch(SetLoading(true));
     try {
       final response = await http.get(
-        Uri.parse('https://dragonball-api.com/api/characters?limit=20'),
+        Uri.parse('https://dragonball-api.com/api/characters?limit=50'),
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -78,7 +77,7 @@ ThunkAction<AppState> fetchPlanets() {
     store.dispatch(SetLoading(true));
     try {
       final response = await http.get(
-        Uri.parse('https://dragonball-api.com/api/planets?limit=20'),
+        Uri.parse('https://dragonball-api.com/api/planets?limit=50'),
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
