@@ -13,17 +13,19 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //Accede al provider que contiene todos los datos de la API de Dragon Ball
     final DBProvider = Provider.of<DBProvider>(context);
+    const colorNaranja = Color(0xFFF57C00); // Dragon Ball
+    const colorAzul = Color(0xFF0D47A1);    // Complementario
 
     //Si aún se están cargando los datos --> muestra pantalla de carga
-    if (eldenProvider.isLoading == true) {
+    if (DBProvider.isLoading == true) {
       return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: backgroundColor: colorAzul.withOpacity(0.15),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(
-                color: Colors.amber,
+                color: Colors
                 strokeWidth: 6,
               ),
               SizedBox(height: 30),
@@ -43,7 +45,7 @@ class HomeScreen extends StatelessWidget {
 
     //Pantalla principal cuando ya hay datos
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: backgroundColor: colorNaranja.withOpacity(0.15),,
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
@@ -52,7 +54,7 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.amber,
+            color: backgroundColor: colorNaranja,,
           ),
         ),
         centerTitle: true,
@@ -80,7 +82,7 @@ class HomeScreen extends StatelessWidget {
               title: "Personajes",
               items: DBProvider.personajes,
               type: 'personaje',
-              onTap: (muestra_detalles_personaje) {
+              onTap: (muestraDetallesPersonaje) {
                 Navigator.pushNamed(
                   context,
                   'detalless',
@@ -94,7 +96,7 @@ class HomeScreen extends StatelessWidget {
               title: "Planetas",
               items: DBProvider.planetas,
               type: 'planeta',
-              onTap: (muestra_detalles_planeta) {
+              onTap: (muestraDetallesPlaneta) {
                 Navigator.pushNamed(
                   context,
                   'detalles',
@@ -102,6 +104,38 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+            child: Row(
+              SizedBox(
+                width: 220,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorNaranja,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  onPressed: () {
+                    // Navegar a carrusel de personajes
+                  },
+                  child: const Text('Personajes'),
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: 220,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorAzul,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  onPressed: () {
+                    // Navegar a carrusel de planetas
+                  },
+                  child: const Text('Planetas'),
+                ),
+              ),
+            )
+
 
             //Espacio final para que no quede pegado al fondo
             SizedBox(height: 50),

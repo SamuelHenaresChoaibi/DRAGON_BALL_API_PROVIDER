@@ -7,6 +7,8 @@ void main() => runApp(AppState());
 
 //Widget raíz que configura los providers de la app
 class AppState extends StatelessWidget {
+  const AppState({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
