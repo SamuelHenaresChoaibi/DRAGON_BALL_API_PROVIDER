@@ -1,4 +1,3 @@
-// home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:dragon_ball_provider/models/modelos.dart';
@@ -18,7 +17,6 @@ class HomeScreen extends StatelessWidget {
       },
       converter: (store) => ViewModel.fromStore(store),
       builder: (context, vm) {
-        // Pantalla de carga estilo DBZ
         if (vm.isLoading && vm.personajes.isEmpty && vm.planetas.isEmpty) {
           return Scaffold(
             body: Container(
@@ -26,14 +24,17 @@ class HomeScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xFF0D1B2A), Color(0xFF1B263B), Color(0xFF415A77)],
+                  colors: [
+                    Color(0xFF0D1B2A),
+                    Color(0xFF1B263B),
+                    Color(0xFF415A77),
+                  ],
                 ),
               ),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset('assets/dragon_ball_logo.png', height: 120), // opcional: pon el logo
+                  children: [ 
                     const SizedBox(height: 40),
                     const CircularProgressIndicator(
                       color: Colors.orange,
@@ -48,7 +49,9 @@ class HomeScreen extends StatelessWidget {
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2,
-                        shadows: [Shadow(color: Colors.orangeAccent, blurRadius: 20)],
+                        shadows: [
+                          Shadow(color: Colors.orangeAccent, blurRadius: 20),
+                        ],
                       ),
                     ),
                   ],
@@ -66,7 +69,7 @@ class HomeScreen extends StatelessWidget {
             title: const Text(
               "DRAGON BALL",
               style: TextStyle(
-                fontFamily: 'Anime', // Usa una fuente tipo DBZ (descárgala y ponla en pubspec)
+                fontFamily: 'Anime',
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.orange,
@@ -75,6 +78,15 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             centerTitle: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.logout, color: Colors.red),
+                onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('/');
+
+                },
+              ),
+            ],
           ),
           body: Container(
             decoration: const BoxDecoration(
@@ -94,7 +106,6 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 20),
 
-                  // Título épico
                   const Text(
                     "¡KAMEHAMEHAAA!",
                     style: TextStyle(
@@ -110,34 +121,43 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const Text(
                     "Elige tu destino, guerrero",
-                    style: TextStyle(color: Colors.white70, fontSize: 18, letterSpacing: 1.5),
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                      letterSpacing: 1.5,
+                    ),
                   ),
 
                   const SizedBox(height: 40),
 
-                  // BOTONES DRAGON BALL Z
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Row(
                       children: [
-                        // PERSONAJES
                         Expanded(
                           child: DBZButton(
                             title: "GUERREROS",
                             isSelected: vm.currentCategory == 'personajes',
                             onTap: () => vm.changeCategory('personajes'),
-                            colors: const [Color(0xFFFF8C00), Color(0xFFFFA500), Color(0xFFFFC107)],
+                            colors: const [
+                              Color(0xFFFF8C00),
+                              Color(0xFFFFA500),
+                              Color(0xFFFFC107),
+                            ],
                             icon: Icons.whatshot,
                           ),
                         ),
                         const SizedBox(width: 20),
-                        // PLANETAS
                         Expanded(
                           child: DBZButton(
                             title: "PLANETAS",
                             isSelected: vm.currentCategory == 'planetas',
                             onTap: () => vm.changeCategory('planetas'),
-                            colors: const [Color(0xFF00CED1), Color(0xFF40E0D0), Color(0xFF48D1CC)],
+                            colors: const [
+                              Color(0xFF00CED1),
+                              Color(0xFF40E0D0),
+                              Color(0xFF48D1CC),
+                            ],
                             icon: Icons.public,
                           ),
                         ),
@@ -147,7 +167,6 @@ class HomeScreen extends StatelessWidget {
 
                   const SizedBox(height: 40),
 
-                  // UN SOLO SLIDER con efecto de aura
                   Expanded(
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -168,16 +187,26 @@ class HomeScreen extends StatelessWidget {
                         child: AnimatedSwitcher(
                           duration: const Duration(milliseconds: 600),
                           transitionBuilder: (child, animation) {
-                            return FadeTransition(opacity: animation, child: child);
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
                           },
                           child: CategorySlider(
                             key: ValueKey(vm.currentCategory),
-                            title: vm.currentCategory == 'personajes' ? "GUERREROS Z" : "PLANETAS DEL UNIVERSO",
-                            items: vm.currentCategory == 'personajes' ? vm.personajes : vm.planetas,
+                            title: vm.currentCategory == 'personajes'
+                                ? "GUERREROS Z"
+                                : "PLANETAS DEL UNIVERSO",
+                            items: vm.currentCategory == 'personajes'
+                                ? vm.personajes
+                                : vm.planetas,
                             type: vm.currentCategory,
                             onTap: (item) {
                               if (vm.currentCategory == 'personajes') {
-                                _showCharacterDialog(context, item as Character);
+                                _showCharacterDialog(
+                                  context,
+                                  item as Character,
+                                );
                               } else {
                                 _showPlanetDialog(context, item as Planet);
                               }
@@ -198,7 +227,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // DIÁLOGOS DRAGON BALL Z
   void _showCharacterDialog(BuildContext context, Character character) {
     showDialog(
       context: context,
@@ -207,7 +235,11 @@ class HomeScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           character.name.toUpperCase(),
-          style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 24),
+          style: const TextStyle(
+            color: Colors.orange,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
           textAlign: TextAlign.center,
         ),
         content: Column(
@@ -221,7 +253,11 @@ class HomeScreen extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(character.image, height: 240, fit: BoxFit.cover),
+                child: Image.network(
+                  character.image,
+                  height: 240,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -233,7 +269,10 @@ class HomeScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("¡KAIO-KEN!", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+            child: const Text(
+              "¡KAIO-KEN!",
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -248,7 +287,11 @@ class HomeScreen extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           planet.name.toUpperCase(),
-          style: const TextStyle(color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 24),
+          style: const TextStyle(
+            color: Colors.cyan,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
           textAlign: TextAlign.center,
         ),
         content: Column(
@@ -266,7 +309,8 @@ class HomeScreen extends StatelessWidget {
                   planet.image,
                   height: 200,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const Icon(Icons.public, size: 100, color: Colors.cyan),
+                  errorBuilder: (_, __, ___) =>
+                      const Icon(Icons.public, size: 100, color: Colors.cyan),
                 ),
               ),
             ),
@@ -293,7 +337,10 @@ class HomeScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("¡GENKI DAMA!", style: TextStyle(color: Colors.cyan, fontWeight: FontWeight.bold)),
+            child: const Text(
+              "¡GENKI DAMA!",
+              style: TextStyle(color: Colors.cyan, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -307,8 +354,16 @@ class HomeScreen extends StatelessWidget {
         children: [
           Icon(icon, color: Colors.orange, size: 20),
           const SizedBox(width: 10),
-          Text("$label: ", style: const TextStyle(color: Colors.orangeAccent, fontWeight: FontWeight.bold)),
-          Expanded(child: Text(value, style: const TextStyle(color: Colors.white))),
+          Text(
+            "$label: ",
+            style: const TextStyle(
+              color: Colors.orangeAccent,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Expanded(
+            child: Text(value, style: const TextStyle(color: Colors.white)),
+          ),
         ],
       ),
     );
