@@ -43,7 +43,6 @@ class SetLoading {
   SetLoading(this.isLoading);
 }
 
-// NUEVA ACCIÓN para cambiar entre personajes y planetas
 class ChangeCategoryAction {
   final String category; // 'personajes' o 'planetas'
   ChangeCategoryAction(this.category);

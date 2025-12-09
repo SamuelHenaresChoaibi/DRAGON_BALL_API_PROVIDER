@@ -1,9 +1,8 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'screens/home_screen.dart';           // Solo necesitamos esta pantalla
-import 'providers/provider_redux.dart';    // Importa el store y AppState
+import 'screens/home_screen.dart';         
+import 'providers/provider_redux.dart'; 
 void main() {
   runApp(const MyApp());
 }
@@ -14,11 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
-      store: store, // El store que ya creaste con todos los datos y acciones
+      store: store, 
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Dragon Ball Wiki',
-        home: const HomeScreen(), // ¡Solo una pantalla! Todo pasa aquí
+        home: const HomeScreen(),
         
         theme: ThemeData.dark().copyWith(
           primaryColor: Colors.amber,

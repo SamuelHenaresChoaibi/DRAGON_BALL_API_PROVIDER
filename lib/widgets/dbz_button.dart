@@ -31,7 +31,7 @@ class DBZButton extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: colors[1].withOpacity(0.8),
+                    color: colors[1],
                     blurRadius: 30,
                     spreadRadius: 5,
                   )

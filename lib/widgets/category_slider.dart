@@ -30,7 +30,6 @@ class CategorySlider extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Título épico
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
           child: Text(
@@ -48,7 +47,6 @@ class CategorySlider extends StatelessWidget {
           ),
         ),
 
-        // Lista vertical con tarjetas grandes y estilo DBZ
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -61,7 +59,7 @@ class CategorySlider extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () => onTap(item),
                   child: Container(
-                    height: 340, // Tarjeta alta y poderosa
+                    height: 340,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
                       gradient: const LinearGradient(
@@ -88,7 +86,6 @@ class CategorySlider extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        // Imagen principal con borde dorado
                         Container(
                           height: 220,
                           margin: const EdgeInsets.all(12),
@@ -124,7 +121,6 @@ class CategorySlider extends StatelessWidget {
 
                         const SizedBox(height: 10),
 
-                        // Nombre con fondo negro y brillo
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
@@ -151,7 +147,6 @@ class CategorySlider extends StatelessWidget {
 
                         const SizedBox(height: 15),
 
-                        // Indicador pequeño de tipo (opcional)
                         if (type == 'personajes')
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
