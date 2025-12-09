@@ -1,8 +1,10 @@
+import 'package:dragon_ball_provider/screens/login_register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'screens/home_screen.dart';         
-import 'providers/provider_redux.dart'; 
+import 'screens/home_screen.dart';
+import 'providers/provider_redux.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,12 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
-      store: store, 
+      store: store,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Dragon Ball Wiki',
-        home: const HomeScreen(),
-        
+        routes: {'/home': (context) => const HomeScreen(),
+                 '/': (context) => LoginOrRegisterScreen()},
+
         theme: ThemeData.dark().copyWith(
           primaryColor: Colors.amber,
           scaffoldBackgroundColor: Colors.grey[900],
